@@ -1,0 +1,46 @@
+version: "3.9"
+services:
+  privacyidea:
+    build: ./privacyidea
+    image: gkujawsk/privacyidea:latest
+    environment:
+      PI_DB_SCHEMA: postgresql
+      PI_DB_USER: privacyidea
+      PI_DB_PASS: tog2gB9fouX4WExYVxN2m3MC
+      PI_DB_NAME: privacyidea
+      PI_DB_HOST: postgres
+      PI_SECRET_KEY: 3aa9ec03306cf1047602f776db322aa752aa8e8d
+      PI_ADMIN_USER: admin
+      PI_ADMIN_PASS: qGswsbBusuztUEKXhiHu
+    depends_on:
+      - postgres
+  freeradius:
+    build: ./freeradius
+    image: gkujawsk/freeradius-pi:latest
+    ports:
+      - "1812-1813:1812-1813/udp"
+    volumes:
+      - ./data/freeradius:/var/log/freeradius:rw
+    depends_on:
+     - privacyidea
+  postgres:
+    image: postgres:14.5-bullseye
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data:rw
+    environment:
+      POSTGRES_PASSWORD: tog2gB9fouX4WExYVxN2m3MC
+      POSTGRES_USER: privacyidea
+      POSTGRES_DB: privacyidea
+  nginx:
+    image: nginx:latest
+    expose:
+      - 443
+    ports:
+      - 8442:443
+      - 8084:80
+    volumes:
+      - ./data/nginx/cert.pem:/etc/ssl/certs/cert.pem:ro
+      - ./data/nginx/key.pem:/etc/ssl/private/key.pem:ro
+      - ./data/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - privacyidea
