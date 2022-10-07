@@ -13,4 +13,5 @@
 
 data/nginx/cert.pem
 data/nginx/key.pem
+data/postgres/*
 !data/postgres/.gitkeep

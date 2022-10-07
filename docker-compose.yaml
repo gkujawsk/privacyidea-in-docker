@@ -26,7 +26,7 @@ services:
   postgres:
     image: postgres:14.5-bullseye
     volumes:
-      - ./data/postgres:/var/lib/postgresql/data:rw
+      - ./data/postgres/data:/var/lib/postgresql/data:rw
     environment:
       POSTGRES_PASSWORD: tog2gB9fouX4WExYVxN2m3MC
       POSTGRES_USER: privacyidea
