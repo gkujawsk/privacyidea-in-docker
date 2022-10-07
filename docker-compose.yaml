@@ -36,8 +36,8 @@ services:
     expose:
       - 443
     ports:
-      - 8442:443
-      - 8084:80
+      - 443:443
+      - 80:80
     volumes:
       - ./data/nginx/cert.pem:/etc/ssl/certs/cert.pem:ro
       - ./data/nginx/key.pem:/etc/ssl/private/key.pem:ro
